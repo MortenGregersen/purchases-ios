@@ -112,6 +112,13 @@ extension Signing {
             }
         }
 
+        var isEnabled: Bool {
+            switch self {
+            case .disabled: return false
+            case .informationOnly, .enforced: return true
+            }
+        }
+
     }
 
 }
