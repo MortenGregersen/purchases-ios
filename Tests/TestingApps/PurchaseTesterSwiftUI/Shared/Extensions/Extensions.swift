@@ -7,6 +7,8 @@
 
 import Foundation
 
+import RevenueCat
+
 extension String {
 
     var nonEmpty: String? {
@@ -15,6 +17,18 @@ extension String {
         return trimmed.isEmpty
             ? nil
             : trimmed
+    }
+
+}
+
+extension EntitlementValidation: CustomStringConvertible {
+
+    public var description: String {
+        switch self {
+        case .notValidated: return "Not verified"
+        case .validated: return "Verified"
+        case .failedValidation: return "Failed verification"
+        }
     }
 
 }

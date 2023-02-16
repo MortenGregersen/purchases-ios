@@ -25,7 +25,8 @@ public final class ConfiguredPurchases {
         apiKey: String,
         proxyURL: String?,
         useStoreKit2: Bool,
-        observerMode: Bool
+        observerMode: Bool,
+        entitlementVerificationMode: Configuration.EntitlementValidationMode
     ) {
         Purchases.logLevel = .debug
         Purchases.logHandler = Self.logger.logHandler
@@ -35,9 +36,10 @@ public final class ConfiguredPurchases {
         }
 
         let purchases = Purchases.configure(
-            with: .builder(withAPIKey: apiKey)
+            with: try! .builder(withAPIKey: apiKey)
                 .with(usesStoreKit2IfAvailable: useStoreKit2)
                 .with(observerMode: observerMode)
+                .with(entitlementValidationMode: entitlementVerificationMode)
                 .build()
         )
 

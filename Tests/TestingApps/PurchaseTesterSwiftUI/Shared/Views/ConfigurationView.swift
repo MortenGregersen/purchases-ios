@@ -17,6 +17,7 @@ struct ConfigurationView: View {
                                                                    with: "")
         var proxy: String = ""
         var storeKit2Enabled: Bool = true
+        var verificationMode: Configuration.EntitlementValidationMode = .disabled
         var observerMode: Bool = false
     }
 
@@ -32,6 +33,11 @@ struct ConfigurationView: View {
     }
 
     var body: some View {
+        self.form
+            .formStyle(.grouped)
+    }
+
+    private var form: some View {
         Form {
             Section(header: Text("Configuration")) {
                 TextField("API Key (required)", text: self.$data.apiKey)
@@ -39,7 +45,13 @@ struct ConfigurationView: View {
                 TextField("Proxy URL (optional)", text: self.$data.proxy)
             }
 
-            Section {
+            Section(header: Text("Settings")) {
+                Picker("Entitlement Verification", selection: self.$data.verificationMode) {
+                    Text("Disabled").tag(Configuration.EntitlementValidationMode.disabled)
+                    Text("Information Only").tag(Configuration.EntitlementValidationMode.informationOnly)
+                    Text("Enforced").tag(Configuration.EntitlementValidationMode.enforced)
+                }
+
                 Toggle(isOn: self.$data.storeKit2Enabled) {
                     Text("StoreKit2 enabled")
                 }
@@ -115,6 +127,8 @@ struct ConfigurationView: View {
     }
 
 }
+
+extension Configuration.EntitlementValidationMode: Codable {}
 
 // MARK: -
 
